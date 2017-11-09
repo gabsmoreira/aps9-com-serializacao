@@ -152,6 +152,8 @@ Recebe o stop bit.
 Checa a paridade do payload e compara com a paridade descrita pelo bit de paridade.  
  
  
- 
+## Resultados 
+
+Exibir a forma de onda gerada pela implementação (usando o analog discovery)
 
 
