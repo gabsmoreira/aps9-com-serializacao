@@ -3,11 +3,13 @@
 due_sw_uart uart;
 
 void setup() {
+  Serial.begin(115200);
   sw_uart_setup(&uart, 19, 18, 1, 8, SW_UART_EVEN_PARITY);
 }
 
 void loop() {
- test_write();
+ test_receive();
+ //delay(1);
 }
 
 void test_write() {
@@ -20,11 +22,11 @@ void test_receive() {
   int code = sw_uart_receive_byte(&uart, &data);
   if(code == SW_UART_SUCCESS) {
      Serial.print(data);
-  } else if(code == SW_UART_ERROR_PARITY) {
-    Serial.println("PARITY ERROR");
-  } else {
-    Serial.println("OTHER");
-    Serial.print(code);
+  //} else if(code == SW_UART_ERROR_PARITY) {
+    //Serial.println("PARITY ERROR");
+  //} else {
+   // Serial.println("OTHER");
+  //  Serial.print(code);
   }
 }
 

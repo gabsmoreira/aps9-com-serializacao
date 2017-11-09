@@ -154,6 +154,7 @@ Checa a paridade do payload e compara com a paridade descrita pelo bit de parida
  
 ## Resultados 
 
-Exibir a forma de onda gerada pela implementação (usando o analog discovery)
+Abaixo está ilustrada a recepção do sinal intereptada pelo Analog Discovery.
 
+![uart](./img/analog.png)
 

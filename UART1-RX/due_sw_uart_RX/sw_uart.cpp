@@ -45,7 +45,7 @@ int sw_uart_receive_byte(due_sw_uart *uart, char* data) {
   char nchar  = 0;
   
   // variavel para calculo da paridade
-  char parity, rx_parity;
+  char parity, rx_parity, incomingBits, stopbit;
 
   // aguarda start bit
   bool startBitFound = false;
@@ -57,27 +57,29 @@ int sw_uart_receive_byte(due_sw_uart *uart, char* data) {
       _sw_uart_wait_half_T(uart);
       if (digitalRead(uart->pin_rx) == 0){
         // confirma start BIT
-        Serial.println("Achooo eii");
         startBitFound = true;
+        break;
       }
+      else
+        return(SW_UART_ERROR_FRAMING);
     }
   }
-
-  // aguarda meio t para ler sempre no meio do bit
-  _sw_uart_wait_half_T(uart);
+  
+  _sw_uart_wait_T(uart);
 
   // recebe dados
-  for (int i = 0; i <= 7; i++) {
-    nchar = nchar | digitalRead(uart->pin_rx) >> i ;
-    _sw_uart_wait_half_T(uart);
+  for (int i = 0; i<=7; i++) {
+    nchar = nchar | (digitalRead(uart->pin_rx) << i);
+    _sw_uart_wait_T(uart);
   }
-
+  
   // recebe paridade
   rx_parity = digitalRead(uart->pin_rx);    
-  _sw_uart_wait_half_T(uart);
+  _sw_uart_wait_T(uart);
 
   // recebe stop bit
-  stopbit = digitalRead(uart->pin_rx)
+  stopbit = digitalRead(uart->pin_rx);
+  _sw_uart_wait_T(uart);
 
   // checa paridade
   parity = calc_even_parity(nchar);  
